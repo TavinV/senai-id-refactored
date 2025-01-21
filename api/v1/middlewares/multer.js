@@ -12,7 +12,6 @@ const storage = multer.diskStorage({
         cb(null, path.join(__dirname, '../../../db/fotos_perfil'))
     },
     filename: (req, file, cb) => {
-        console.log(req.body)
         const chavePrimaria = req.body.matricula || req.body.nif;
         if (!chavePrimaria) {
             return cb(new Error("Matrícula é necessária para nomear o arquivo"));
