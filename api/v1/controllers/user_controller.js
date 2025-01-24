@@ -30,7 +30,21 @@ const getUser = async (req, res) => {
     }
 
     // Retornando o usuário
-    return ApiResponse.OK(res, user)
+    const filteredData = {
+        id: user.id,
+        nome: user.nome,
+        cargo: user.cargo,
+        rg: user.rg,
+        email: user.email,
+        data_nascimento: user.data_nascimento,
+        curso: user.curso,
+        turma: user.turma,
+        horario_entrada: user.horario_entrada,
+        matricula: user.matricula,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+    };
+    return ApiResponse.OK(res, filteredData)
 }
 
 
@@ -49,9 +63,8 @@ const getFotoPerfil = async (req, res) => {
     }
 
     // Após buscar o usuário, vamos encontrar a sua foto de perfil
-    const userPrimaryKey = (user.cargo == "aluno") ? user.matricula : user.nif
 
-    const [filePath, error] = await findUserPFP(userPrimaryKey)
+    const [filePath, error] = await findUserPFP(user)
     if (!filePath) {
         return ApiResponse.NOTFOUND(res, "Foto de perfil não encontrada.")
     } else {

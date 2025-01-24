@@ -5,10 +5,6 @@ import ApiResponse from '../utils/ApiResponse.js'
 
 // Middleware para validar o corpo da requisição
 export const validarAluno = async (req, res, next) => {
-    // Primeiro, valida se a imagem foi enviada
-    if (!req.file) {
-        return ApiResponse.BADREQUEST(res, 'Foto de perfil é obrigatória')
-    }
 
     // Validando os outros dados do corpo com o alunoSchema
     const { error } = alunoSchema.validate(req.body, { abortEarly: false })
@@ -25,10 +21,6 @@ export const validarAluno = async (req, res, next) => {
 };
 
 export const validarFuncionario = async (req, res, next) => {
-    // Primeiro, valida se a imagem foi enviada
-    if (!req.file) {
-        return ApiResponse.BADREQUEST(res, 'Foto de perfil é obrigatória')
-    }
 
     // Validando o corpo utilziando o JOI e a schema de funcionario
     const { error } = funcionarioSchema.validate(req.body, { abortEarly: false })

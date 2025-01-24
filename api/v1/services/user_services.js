@@ -40,8 +40,20 @@ const validateUserLogin = async (loginFornecido, senha) => {
     }
 }
 
-const findUserPFP = async (filename) => {
+const findUserPFP = async (user) => {
     // Diretório aonde estão as fotos de perfil
+
+    let filename = ''
+
+    switch (user.cargo) {
+        case "aluno":
+            filename = user.matricula
+            break
+        case "funcionario":
+            filename = user.nif
+            break
+    }
+
     const basePath = path.join(__dirname, '../../../db/fotos_perfil/')
     const filePath = path.join(basePath, `${filename}_pfp.png`)
 
@@ -89,10 +101,24 @@ const createUser = async (user) => {
         const result = await User.create(user)
         return [result, null]
     } catch (error) {
-        return [null, 500]
+
+        if (error.code === 11000) {
+            return [null, 409]
+        } else {
+            return [null, 500]
+        }
     }
 
 }
 
+const deleteUser = async (user_id) => {
+    try {
+        const result = await User.deleteOne({ id: user_id })
+        return [result, null]
+    } catch (error) {
+        return [null, 500]
+    }
+}
 
-export { findUserById, validateUserLogin, findUserPFP, generateQRCODE, updateUser, createUser }
+
+export { findUserById, validateUserLogin, findUserPFP, generateQRCODE, updateUser, createUser, deleteUser }

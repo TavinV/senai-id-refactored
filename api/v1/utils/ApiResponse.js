@@ -28,7 +28,6 @@ class ApiResponse {
     }
 
     static NOTFOUND(res, message = "Recurso não encontrado", data = null) {
-        console.log(data)
         return res.status(404).json({
             success: false,
             message,
@@ -57,6 +56,23 @@ class ApiResponse {
     static UNAUTHORIZED(res, message = "Credenciais Inválidas", data = null) {
         return res.status(403).json({
             success: false,
+            message,
+            data,
+            timestamp: new Date().toISOString(),
+        })
+    }
+
+    static ALREADYEXISTS(res, message = "Já existe um registro com essas informações", data = null) {
+        return res.status(409).json({
+            success: false,
+            message,
+            data,
+            timestamp: new Date().toISOString(),
+        })
+    }
+    static DELETED(res, message = "Recurso deletado com sucesso", data = null) {
+        return res.status(204).json({
+            success: true,
             message,
             data,
             timestamp: new Date().toISOString(),
